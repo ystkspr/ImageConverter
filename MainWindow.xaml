@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Image Converter" Height="145" Width="720" ResizeMode="NoResize">
     <Grid HorizontalAlignment="Center" Width="720" Height="132" VerticalAlignment="Top">
-        <TextBox x:Name="targetFolderTextbox" HorizontalAlignment="Right" Margin="0,11,110,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="500" Height="18"/>
+        <TextBox x:Name="targetFolderTextbox" HorizontalAlignment="Right" Margin="0,11,110,0" Text="" VerticalAlignment="Top" Width="500" Height="18"/>
         <Button x:Name="folderSelectButton" Content="Select folder" HorizontalAlignment="Left" Margin="621,10,0,0" VerticalAlignment="Top" Width="79" Click="folderSelectButton_Click"/>
         <Label x:Name="label" Content="Target folder" Margin="24,7,615,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="InputImageExtComboBox" HorizontalAlignment="Left" Margin="125,36,0,0" VerticalAlignment="Top" Width="120"/>
@@ -15,7 +15,8 @@
         <Label x:Name="FromExtLabel" Content="From Image Ext" Margin="24,34,600,0" VerticalAlignment="Top"/>
         <Label x:Name="ToExtLabel" Content="To Image Ext" Margin="259,34,365,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="isDeleteOriginalCheckBox" Content="isDeleteOriginal" HorizontalAlignment="Left" Margin="24,67,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Convert" Content="Convert" HorizontalAlignment="Left" Margin="621,65,0,0" VerticalAlignment="Top" Width="79" Click="Convert_ClickAsync"/>
+        <Button x:Name="Convert" Content="Convert" HorizontalAlignment="Left" Margin="621,65,0,0" VerticalAlignment="Top" Width="79" Click="Convert_Click"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Center" Height="10" Margin="0,90,0,0" VerticalAlignment="Top" Width="680"/>
+        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="621,38,0,0" VerticalAlignment="Top" Width="79" IsEnabled="False" Click="stopButton_Click"/>
     </Grid>
 </Window>

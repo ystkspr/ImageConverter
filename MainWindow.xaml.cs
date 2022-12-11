@@ -26,6 +26,8 @@ namespace ImageConverter
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isStop = false;
+
         public MainWindow()
         {
             var extList = new List<string>();
@@ -57,7 +59,7 @@ namespace ImageConverter
 
         }
 
-        private async void Convert_ClickAsync(object sender, RoutedEventArgs e)
+        private async void Convert_Click(object sender, RoutedEventArgs e)
         {
             Matcher matcher = new ();
             matcher.AddInclude( "**/*." + InputImageExtComboBox.SelectedItem.ToString());
@@ -70,11 +72,22 @@ namespace ImageConverter
             foreach (var file in matchingFiles)
             {
                 var ext = OutputImageExtComboBox.SelectedItem.ToString();
-                Task task = Task.Run(() => {
+                var isDeleteChecked = isDeleteOriginalCheckBox.IsChecked;
+                if(isStop)
+                {
+                    isStop = false;
+                    MessageBox.Show("Interrupted.");
+                    break;
+                }
+                await Task.Run(() => {
                     using (var image = new MagickImage(file))
                     {
                         var destination = Path.ChangeExtension(file, ext);
                         image.Write(destination);
+                        if(isDeleteChecked == true )
+                        {
+                            File.Delete(file);
+                        }
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             progressBar.Value += 1;
@@ -82,7 +95,9 @@ namespace ImageConverter
                     }
                 });
             }
-            MessageBox.Show("finished.");
+
+            MessageBox.Show("Finished.");
+            progressBar.Value = 0;
 
             changeEnableStatus(true);
         }
@@ -95,6 +110,12 @@ namespace ImageConverter
             targetFolderTextbox.IsEnabled = status;
             folderSelectButton.IsEnabled = status;
             isDeleteOriginalCheckBox.IsEnabled = status;
+            stopButton.IsEnabled = status == true ? false : true ;
+        }
+
+        private void stopButton_Click(object sender, RoutedEventArgs e)
+        {
+            isStop = true;
         }
     }
 }
