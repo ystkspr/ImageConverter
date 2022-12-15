@@ -80,18 +80,24 @@ namespace ImageConverter
                     break;
                 }
                 await Task.Run(() => {
-                    using (var image = new MagickImage(file))
+                    try
                     {
-                        var destination = Path.ChangeExtension(file, ext);
-                        image.Write(destination);
-                        if(isDeleteChecked == true )
+                        using (var image = new MagickImage(file))
                         {
-                            File.Delete(file);
+                            var destination = Path.ChangeExtension(file, ext);
+                            image.Write(destination);
+                            if (isDeleteChecked == true)
+                            {
+                                File.Delete(file);
+                            }
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                progressBar.Value += 1;
+                            });
                         }
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            progressBar.Value += 1;
-                        });
+                    }catch(Exception e)
+                    {
+                        MessageBox.Show(e.Message);
                     }
                 });
             }
