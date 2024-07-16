@@ -27,6 +27,7 @@ namespace ImageConverter
     public partial class MainWindow : Window
     {
         private bool isStop = false;
+        private string name = string.Empty;
 
         public MainWindow()
         {
@@ -35,7 +36,12 @@ namespace ImageConverter
 
             foreach (MagickFormat Value in Enum.GetValues(typeof(MagickFormat)))
             {
-                string name = Enum.GetName(typeof(MagickFormat), Value).ToLower();
+                var nameValue = Enum.GetName(typeof(MagickFormat), Value);
+                if (nameValue != null)
+                {
+                    string name = nameValue.ToLower();
+                }
+
                 extList.Add(name);
             }
             
